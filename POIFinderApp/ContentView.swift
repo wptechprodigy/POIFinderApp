@@ -13,13 +13,26 @@ struct ContentView: View {
     @State private var annotations: [MKPointAnnotation] = []
     @State private var errorMessage: String?
 
+    @State private var selectedPlace: MKMapItem? // Selected POI
+    @State private var isShowingDetailsModal = false // Controls modal visibility
+
     var body: some View {
-        VStack {
-            if let error = errorMessage {
-                Text("Error: \(error)")
-            } else {
-                MapView(annotations: $annotations)
-                    .edgesIgnoringSafeArea(.all)
+        ZStack {
+            // Map View
+            MapView(annotations: $annotations) { annotation in
+                // Find the corresponding MKMapItem for the tapped annotation
+                if let place = findPlace(for: annotation) {
+                    selectedPlace = place
+                    isShowingDetailsModal = true
+                    print("Modal should now be visible.")
+                }
+            }
+            .edgesIgnoringSafeArea(.all)
+
+            // Details Modal
+            if let place = selectedPlace, isShowingDetailsModal {
+                DetailsModalView(place: place, isPresented: $isShowingDetailsModal)
+                    .transition(.move(edge: .bottom)) // Slide-up animation
             }
         }
         .task {
@@ -46,6 +59,20 @@ struct ContentView: View {
                 errorMessage = error.localizedDescription
             }
         }
+    }
+
+    // Helper function to find the corresponding MKMapItem for an annotation
+    private func findPlace(for annotation: MKPointAnnotation) -> MKMapItem? {
+        let request = MKLocalSearch.Request()
+        request.naturalLanguageQuery = annotation.title
+        request.region = MKCoordinateRegion(center: annotation.coordinate, latitudinalMeters: 500, longitudinalMeters: 500)
+
+        let search = MKLocalSearch(request: request)
+        var result: MKMapItem?
+        search.start { response, _ in
+            result = response?.mapItems.first
+        }
+        return result
     }
 }
 

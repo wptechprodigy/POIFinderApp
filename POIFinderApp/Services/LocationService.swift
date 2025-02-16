@@ -16,6 +16,9 @@ class LocationService: NSObject, LocationServiceProtocol, CLLocationManagerDeleg
     private let locationManager = CLLocationManager()
     private var continuation: CheckedContinuation<CLLocationCoordinate2D, Error>?
     
+    // Flag to track if the continuation has been resumed
+    private var isContinuationResumed = false
+    
     override init() {
         super.init()
         locationManager.delegate = self
@@ -33,7 +36,9 @@ class LocationService: NSObject, LocationServiceProtocol, CLLocationManagerDeleg
     // Location is successfully fetched: safe to call
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last?.coordinate else { return }
-        print("Fetched location: \(location.latitude), \(location.longitude)")
+        
+        // Mark the continuation as resumed
+        isContinuationResumed = true
         continuation?.resume(returning: location)
     }
     
@@ -54,6 +59,9 @@ class LocationService: NSObject, LocationServiceProtocol, CLLocationManagerDeleg
         } else {
             print("Unknown error: \(error.localizedDescription)")
         }
+        
+        // Mark the continuation as resumed
+        isContinuationResumed = true
         continuation?.resume(throwing: error)
     }
 }
