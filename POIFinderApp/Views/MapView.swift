@@ -10,13 +10,15 @@ import MapKit
 
 struct MapView: UIViewRepresentable {
     @Binding var annotations: [MKPointAnnotation]
+    var onAnnotationTapped: (MKPointAnnotation) -> Void // Callback for annotation taps
+    
+    // Specific region to emulate since testing is done, at the moment, on the simulator
     let region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 37.33182, longitude: -122.03118),
         latitudinalMeters: 1000,
         longitudinalMeters: 1000
     )
     
-
     func makeUIView(context: Context) -> MKMapView {
         let mapView = MKMapView()
         mapView.delegate = context.coordinator
@@ -41,6 +43,13 @@ struct MapView: UIViewRepresentable {
 
         init(_ parent: MapView) {
             self.parent = parent
+        }
+        
+        // Handle annotation selection
+        func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+            if let annotation = view.annotation as? MKPointAnnotation {
+                parent.onAnnotationTapped(annotation)
+            }
         }
     }
 }
