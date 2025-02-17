@@ -14,7 +14,7 @@ struct FavoritesListView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(favoriteAnnotations, id: \.uniqueID) { annotation in
+                ForEach(favoriteAnnotations, id: \.title) { annotation in
                     VStack(alignment: .leading) {
                         Text(annotation.title ?? "Unknown Place")
                             .font(.headline)

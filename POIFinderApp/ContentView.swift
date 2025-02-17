@@ -25,6 +25,8 @@ struct ContentView: View {
     // Publisher for debouncing search queries
     private let searchQueryPublisher = PassthroughSubject<String, Never>()
     private var cancellables = Set<AnyCancellable>()
+    
+    @StateObject private var locationService = LocationService()
 
     var body: some View {
         TabView {
@@ -46,7 +48,7 @@ struct ContentView: View {
                                 .padding(8)
                                 .background(Color(.systemGray6))
                                 .cornerRadius(8)
-                                .onChange(of: searchQuery) { newValue in
+                                .onChange(of: searchQuery) { _, newValue in
                                     searchService.search(query: newValue)
                                 }
                             
@@ -95,6 +97,14 @@ struct ContentView: View {
                         .animation(.spring(), value: bottomSheetOffset)
                         .transition(.move(edge: .bottom))
                 }
+                
+                // Error Alert
+                if let errorMessage = errorMessage ?? locationService.errorMessage {
+                    ErrorAlert(message: errorMessage, dismissAction: {
+                        self.errorMessage = nil
+                        locationService.errorMessage = nil
+                    })
+                }
             }
             .tabItem {
                 Label("Map", systemImage: "map")
@@ -107,7 +117,6 @@ struct ContentView: View {
             .task {
                 do {
                     // Fetch the user's location
-                    let locationService = LocationService()
                     userLocation = try await locationService.requestLocation()
                     
                     // Search for nearby places
@@ -125,10 +134,10 @@ struct ContentView: View {
                         }
                     }
                 } catch {
-                    errorMessage = error.localizedDescription
+                    handle(error: error)
                 }
+                
             }
-            
             
             // Second Tab: Favorites List
             FavoritesListView(favoriteAnnotations: $favoriteAnnotations)
@@ -148,20 +157,7 @@ struct ContentView: View {
         let search = MKLocalSearch(request: request)
         search.start { response, error in
             if let error = error {
-                if let mkError = error as? MKError, mkError.code == .loadingThrottled {
-                    print("Autocomplete throttled: Too many requests. Please try again later.")
-                    // Optionally, show an alert to the user
-                    DispatchQueue.main.async {
-                        self.errorMessage = "Too many requests. Please try again later."
-                    }
-                } else {
-                    print("Error searching for completion: \(error.localizedDescription)")
-                    DispatchQueue.main.async {
-                        self.errorMessage = "An error occurred while fetching results."
-                    }
-                }
-                
-                return
+                handle(error: error)
             }
             
             if let mapItems = response?.mapItems {
@@ -205,9 +201,8 @@ struct ContentView: View {
                 annotation.coordinate = CLLocationCoordinate2D(latitude: favorite.latitude, longitude: favorite.longitude)
                 return annotation
             }
-            print("Loaded \(favoriteAnnotations.count) favorite annotations.")
         } catch {
-            print("Error loading favorite locations: \(error.localizedDescription)")
+            handle(error: error)
         }
     }
     
@@ -233,8 +228,32 @@ struct ContentView: View {
                 return mapItem
             }
         } catch {
-            print("Error finding place: \(error.localizedDescription)")
+            handle(error: error)
             return nil
+        }
+    }
+    
+    // Centralized Error Handler
+    private func handle(error: Error) {
+        if let mkError = error as? MKError {
+            // Handle MapKit-specific errors
+            switch mkError.code {
+            case .loadingThrottled:
+                errorMessage = "Too many requests. Please try again later."
+            default:
+                errorMessage = "A MapKit error occurred: \(mkError.localizedDescription)"
+            }
+        } else if let clError = error as? CLError {
+            switch clError.code {
+            case .denied:
+                errorMessage = "Location access denied. Please enable location services in Settings."
+            case .locationUnknown:
+                errorMessage = "Unable to determine your location. Please try again."
+            default:
+                errorMessage = "An error occurred: \(clError.localizedDescription)"
+            }
+        } else {
+            errorMessage = "An unexpected error occurred: \(error.localizedDescription)"
         }
     }
 }
