@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		040870B32D6248CC002DD2BF /* BottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040870B22D6248CC002DD2BF /* BottomSheet.swift */; };
 		040870B52D6329B0002DD2BF /* CoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040870B42D6329B0002DD2BF /* CoreDataService.swift */; };
+		040870B72D635A9B002DD2BF /* FavoritesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040870B62D635A9B002DD2BF /* FavoritesListView.swift */; };
 		04B5C6EE2D6067F4007E55C0 /* POIFinderAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B5C6ED2D6067F4007E55C0 /* POIFinderAppApp.swift */; };
 		04B5C6F02D6067F4007E55C0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B5C6EF2D6067F4007E55C0 /* ContentView.swift */; };
 		04B5C6F22D6067F9007E55C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04B5C6F12D6067F9007E55C0 /* Assets.xcassets */; };
@@ -44,6 +45,7 @@
 /* Begin PBXFileReference section */
 		040870B22D6248CC002DD2BF /* BottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheet.swift; sourceTree = "<group>"; };
 		040870B42D6329B0002DD2BF /* CoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataService.swift; sourceTree = "<group>"; };
+		040870B62D635A9B002DD2BF /* FavoritesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesListView.swift; sourceTree = "<group>"; };
 		04B5C6EA2D6067F4007E55C0 /* POIFinderApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = POIFinderApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04B5C6ED2D6067F4007E55C0 /* POIFinderAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POIFinderAppApp.swift; sourceTree = "<group>"; };
 		04B5C6EF2D6067F4007E55C0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 				04B5C7212D6229FC007E55C0 /* MapView.swift */,
 				04B5C7252D623360007E55C0 /* DetailsModalView.swift */,
 				040870B22D6248CC002DD2BF /* BottomSheet.swift */,
+				040870B62D635A9B002DD2BF /* FavoritesListView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -303,6 +306,7 @@
 				04B5C7222D6229FC007E55C0 /* MapView.swift in Sources */,
 				04B5C6F02D6067F4007E55C0 /* ContentView.swift in Sources */,
 				04B5C71E2D60866E007E55C0 /* LocationService.swift in Sources */,
+				040870B72D635A9B002DD2BF /* FavoritesListView.swift in Sources */,
 				04B5C6FA2D6067F9007E55C0 /* POIFinderApp.xcdatamodeld in Sources */,
 				04B5C6EE2D6067F4007E55C0 /* POIFinderAppApp.swift in Sources */,
 				04B5C7242D622A2E007E55C0 /* MapService.swift in Sources */,

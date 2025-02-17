@@ -10,6 +10,14 @@ import SwiftUI
 @main
 struct POIFinderAppApp: App {
     let persistenceController = PersistenceController.shared
+    
+    init() {
+        // Customize the tab bar appearance
+        UITabBar.appearance().backgroundColor = UIColor.clear
+        UITabBar.appearance().isTranslucent = true
+        UITabBar.appearance().backgroundImage = UIImage()
+        UITabBar.appearance().shadowImage = UIImage()
+    }
 
     var body: some Scene {
         WindowGroup {

@@ -10,6 +10,7 @@ import MapKit
 
 struct MapView: UIViewRepresentable {
     @Binding var annotations: [MKPointAnnotation]
+    @Binding var favoriteAnnotations: [MKPointAnnotation]
     var onAnnotationTapped: (MKPointAnnotation) -> Void // Callback for annotation taps
     
     // Specific region to emulate since testing is done, at the moment, on the simulator
@@ -31,7 +32,8 @@ struct MapView: UIViewRepresentable {
 
     func updateUIView(_ uiView: MKMapView, context: Context) {
         uiView.removeAnnotations(uiView.annotations)
-        uiView.addAnnotations(annotations)
+        uiView.addAnnotations(annotations + favoriteAnnotations)
+        print("Added annotations to the map.")
     }
 
     func makeCoordinator() -> Coordinator {
@@ -47,9 +49,6 @@ struct MapView: UIViewRepresentable {
         
         // Handle annotation selection
         func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-//            // Deselect all other annotations
-//            mapView.deselectAnnotation(view.annotation, animated: false)
-            
             if let annotation = view.annotation as? MKPointAnnotation {
                 parent.onAnnotationTapped(annotation)
             }

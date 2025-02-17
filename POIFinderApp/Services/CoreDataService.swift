@@ -25,11 +25,14 @@ class CoreDataService {
         favoriteLocation.longitude = longitude
 
         try context.save()
+        print("Saved favorite location: \(name)")
     }
 
     // Fetch all favorite locations
     func fetchFavoriteLocations() throws -> [PointOfInterests] {
         let request: NSFetchRequest<PointOfInterests> = PointOfInterests.fetchRequest()
-        return try context.fetch(request)
+        let favorites = try context.fetch(request)
+        print("Fetched \(favorites.count) favorite locations.")
+        return favorites
     }
 }

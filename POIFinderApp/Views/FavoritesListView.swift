@@ -6,13 +6,27 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct FavoritesListView: View {
+    @Binding var favoriteAnnotations: [MKPointAnnotation]
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationView {
+            List(favoriteAnnotations, id: \.coordinate.latitude) { annotation in
+                VStack(alignment: .leading) {
+                    Text(annotation.title ?? "Unknown Place")
+                        .font(.headline)
+                    Text(annotation.subtitle ?? "No Address")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
+            }
+            .navigationTitle("Favorites")
+        }
     }
 }
 
 #Preview {
-    FavoritesListView()
+    FavoritesListView(favoriteAnnotations: .constant([]))
 }

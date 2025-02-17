@@ -11,6 +11,7 @@ import MapKit
 struct BottomSheet: View {
     let place: MKMapItem
     @Binding var isPresented: Bool
+    @Environment(\.managedObjectContext) private var context
 
     var body: some View {
         VStack {
@@ -41,8 +42,17 @@ struct BottomSheet: View {
                 Text(place.placemark.title ?? "No Address")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
-
-                Spacer()
+                
+                Button(action: {
+                    saveFavoriteLocation()
+                }) {
+                    Text("Save to Favorite")
+                        .padding()
+                        .background(Color.teal)
+                        .foregroundStyle(Color.white)
+                        .font(.system(size: 18, weight: .semibold))
+                        .cornerRadius(8)
+                }
             }
             .padding()
         }
@@ -51,6 +61,23 @@ struct BottomSheet: View {
         .cornerRadius(16, corners: [.topLeft, .topRight])
         .shadow(radius: 10)
         .ignoresSafeArea(.all, edges: .bottom)
+    }
+    
+    private func saveFavoriteLocation() {
+        let coreDataService = CoreDataService(context: context)
+        
+        do {
+            try coreDataService.saveFavoriteLocation(
+                name: place.name ?? "Unknown",
+                category: "Restaurant", // Replace with actual category if available
+                address: place.placemark.title ?? "No Address",
+                latitude: place.placemark.coordinate.latitude,
+                longitude: place.placemark.coordinate.longitude
+            )
+            print("Saved favorite location: \(place.name ?? "Unknown")")
+        } catch {
+            print("Error saving favorite location: \(error.localizedDescription)")
+        }
     }
 }
 
