@@ -47,9 +47,16 @@ struct MapView: UIViewRepresentable {
         
         // Handle annotation selection
         func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+//            // Deselect all other annotations
+//            mapView.deselectAnnotation(view.annotation, animated: false)
+            
             if let annotation = view.annotation as? MKPointAnnotation {
                 parent.onAnnotationTapped(annotation)
             }
+        }
+        
+        func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+            print("Annotation deselected.")
         }
     }
 }

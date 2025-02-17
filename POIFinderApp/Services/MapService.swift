@@ -18,8 +18,12 @@ class MapService: MapServiceProtocol {
         request.naturalLanguageQuery = category
         request.region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000)
 
-        let search = MKLocalSearch(request: request)
-        let response = try await search.start()
-        return response.mapItems
+//        Task {
+            let search = MKLocalSearch(request: request)
+            let response = try await search.start()
+            return response.mapItems
+//        }
+        
+//        return []
     }
 }

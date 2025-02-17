@@ -47,7 +47,6 @@ class LocationService: NSObject, LocationServiceProtocol, CLLocationManagerDeleg
         if let clError = error as? CLError {
             switch clError.code {
             case .locationUnknown:
-                print("Location unknown. Retrying...")
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                     self.locationManager.requestLocation()
                 }
