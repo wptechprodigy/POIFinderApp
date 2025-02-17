@@ -11,7 +11,7 @@ import MapKit
 struct MapView: UIViewRepresentable {
     @Binding var annotations: [MKPointAnnotation]
     @Binding var favoriteAnnotations: [MKPointAnnotation]
-    var onAnnotationTapped: (MKPointAnnotation) -> Void // Callback for annotation taps
+    var onAnnotationTapped: (MKPointAnnotation) -> Void
     
     // Specific region to emulate since testing is done, at the moment, on the simulator
     let region = MKCoordinateRegion(
@@ -57,5 +57,16 @@ struct MapView: UIViewRepresentable {
         func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
             print("Annotation deselected.")
         }
+    }
+}
+
+// Placeholder for Previews
+struct MapView_Previews: PreviewProvider {
+    static var previews: some View {
+        // Use a placeholder view instead of the live MapView
+        Rectangle()
+            .fill(Color.blue)
+            .frame(height: 300)
+            .overlay(Text("Map Preview"))
     }
 }

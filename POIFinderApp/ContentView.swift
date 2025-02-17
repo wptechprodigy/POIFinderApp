@@ -7,6 +7,7 @@
 
 import SwiftUI
 import MapKit
+import Combine
 
 struct ContentView: View {
     @State private var userLocation: CLLocationCoordinate2D?
@@ -17,6 +18,13 @@ struct ContentView: View {
     @State private var selectedPlace: MKMapItem?
     @State private var isBottomSheetVisible = false
     @State private var bottomSheetOffset: CGFloat = UIScreen.main.bounds.height
+    
+    @State private var searchQuery: String = ""
+    @StateObject private var searchService = SearchViewModel()
+    
+    // Publisher for debouncing search queries
+    private let searchQueryPublisher = PassthroughSubject<String, Never>()
+    private var cancellables = Set<AnyCancellable>()
 
     var body: some View {
         TabView {
@@ -31,6 +39,53 @@ struct ContentView: View {
                     }
                 }
                 .edgesIgnoringSafeArea(.all)
+                .safeAreaInset(edge: .top) {
+                    VStack {
+                        HStack {
+                            TextField("Search places...", text: $searchQuery)
+                                .padding(8)
+                                .background(Color(.systemGray6))
+                                .cornerRadius(8)
+                                .onChange(of: searchQuery) { newValue in
+                                    searchService.search(query: newValue)
+                                }
+                            
+                            Button(action: {
+                                searchQuery = ""
+                                searchService.searchResults = []
+                            }) {
+                                Image(systemName: "xmark.circle.fill")
+                                    .foregroundColor(.gray)
+                            }
+                        }
+                        .padding(.horizontal, 16)
+                        .padding(.bottom, 20)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .background(Color.white)
+                }
+                
+                // Display Autocomplete Suggestions
+                if !searchService.searchResults.isEmpty {
+                    List(searchService.searchResults, id: \.subtitle) { result in
+                        VStack(alignment: .leading) {
+                            Text(result.title)
+                                .font(.headline)
+                            Text(result.subtitle)
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                        }
+                        .onTapGesture {
+                            handleSearchSelection(result)
+                        }
+                    }
+                    .frame(height: 350)
+                    .background(Color.white)
+                    .cornerRadius(16)
+                    .shadow(radius: 4)
+                    .padding(.horizontal, 16)
+                    .transition(.move(edge: .top))
+                }
                 
                 // Bottom Sheet
                 if let place = selectedPlace, isBottomSheetVisible {
@@ -74,6 +129,7 @@ struct ContentView: View {
                 }
             }
             
+            
             // Second Tab: Favorites List
             FavoritesListView(favoriteAnnotations: $favoriteAnnotations)
                 .tabItem {
@@ -82,7 +138,45 @@ struct ContentView: View {
         }
         .onAppear {
             loadFavoriteLocations()
+            searchService.setupSearchDebouncer()
         }
+    }
+    
+    // Handle selection of an autocomplete suggestion
+    private func handleSearchSelection(_ result: MKLocalSearchCompletion) {
+        let request = MKLocalSearch.Request(completion: result)
+        let search = MKLocalSearch(request: request)
+        search.start { response, error in
+            if let error = error {
+                if let mkError = error as? MKError, mkError.code == .loadingThrottled {
+                    print("Autocomplete throttled: Too many requests. Please try again later.")
+                    // Optionally, show an alert to the user
+                    DispatchQueue.main.async {
+                        self.errorMessage = "Too many requests. Please try again later."
+                    }
+                } else {
+                    print("Error searching for completion: \(error.localizedDescription)")
+                    DispatchQueue.main.async {
+                        self.errorMessage = "An error occurred while fetching results."
+                    }
+                }
+                
+                return
+            }
+            
+            if let mapItems = response?.mapItems {
+                self.annotations = mapItems.map { item in
+                    let annotation = MKPointAnnotation()
+                    annotation.title = item.name
+                    annotation.subtitle = item.placemark.title
+                    annotation.coordinate = item.placemark.coordinate
+                    return annotation
+                }
+            }
+        }
+        
+        searchQuery = "" // Clear the search query
+        searchService.searchResults = [] // Clear the suggestions
     }
 
     // Show the bottom sheet
@@ -147,4 +241,7 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+        .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        .environmentObject(SearchViewModel())
+        .preferredColorScheme(.light)
 }

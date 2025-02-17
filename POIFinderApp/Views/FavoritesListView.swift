@@ -13,17 +13,26 @@ struct FavoritesListView: View {
 
     var body: some View {
         NavigationView {
-            List(favoriteAnnotations, id: \.coordinate.latitude) { annotation in
-                VStack(alignment: .leading) {
-                    Text(annotation.title ?? "Unknown Place")
-                        .font(.headline)
-                    Text(annotation.subtitle ?? "No Address")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
+            List {
+                ForEach(favoriteAnnotations, id: \.uniqueID) { annotation in
+                    VStack(alignment: .leading) {
+                        Text(annotation.title ?? "Unknown Place")
+                            .font(.headline)
+                        Text(annotation.subtitle ?? "No Address")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                    }
                 }
             }
             .navigationTitle("Favorites")
         }
+    }
+}
+
+// Extension to generate a unique ID for annotations
+extension MKPointAnnotation {
+    var uniqueID: String {
+        "\(coordinate.latitude)-\(coordinate.longitude)"
     }
 }
 
