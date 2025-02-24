@@ -7,9 +7,16 @@
 
 import SwiftUI
 import MapKit
+import CoreData
 
 struct FavoritesListView: View {
     @Binding var favoriteAnnotations: [MKPointAnnotation]
+    private let coreDataService: CoreDataService
+    
+    init(favoriteAnnotations: Binding<[MKPointAnnotation]>, context: NSManagedObjectContext) {
+        self._favoriteAnnotations = favoriteAnnotations
+        self.coreDataService = CoreDataService(context: context)
+    }
 
     var body: some View {
         NavigationView {
@@ -26,6 +33,25 @@ struct FavoritesListView: View {
             }
             .navigationTitle("Favorites")
         }
+        .onAppear {
+            loadFavoriteLocations()
+        }
+    }
+    
+    // Load favorite locations from Core Data
+    private func loadFavoriteLocations() {
+        do {
+            let favorites = try coreDataService.fetchFavoriteLocations()
+            favoriteAnnotations = favorites.map { favorite in
+                let annotation = MKPointAnnotation()
+                annotation.title = favorite.name
+                annotation.subtitle = favorite.address
+                annotation.coordinate = CLLocationCoordinate2D(latitude: favorite.latitude, longitude: favorite.longitude)
+                return annotation
+            }
+        } catch {
+            print("Failed to fetch favorite locations: \(error.localizedDescription)")
+        }
     }
 }
 
@@ -37,5 +63,6 @@ extension MKPointAnnotation {
 }
 
 #Preview {
-    FavoritesListView(favoriteAnnotations: .constant([]))
+    @State var annotations: [MKPointAnnotation] = []
+    return FavoritesListView(favoriteAnnotations: $annotations, context: PersistenceController.preview.container.viewContext)
 }

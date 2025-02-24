@@ -12,6 +12,10 @@ struct BottomSheet: View {
     let place: MKMapItem
     @Binding var isPresented: Bool
     @Environment(\.managedObjectContext) private var context
+    
+    // State for alerts
+    @State private var showAlert = false
+    @State private var alertMessage = ""
 
     var body: some View {
         VStack {
@@ -61,6 +65,9 @@ struct BottomSheet: View {
         .cornerRadius(16, corners: [.topLeft, .topRight])
         .shadow(radius: 10)
         .ignoresSafeArea(.all, edges: .bottom)
+        .alert(alertMessage, isPresented: $showAlert) {
+            Button("OK", role: .cancel) {}
+        }
     }
     
     private func saveFavoriteLocation() {
@@ -69,14 +76,26 @@ struct BottomSheet: View {
         do {
             try coreDataService.saveFavoriteLocation(
                 name: place.name ?? "Unknown",
-                category: "Restaurant", // Replace with actual category if available
+                category: "Restaurant",
                 address: place.placemark.title ?? "No Address",
                 latitude: place.placemark.coordinate.latitude,
                 longitude: place.placemark.coordinate.longitude
             )
-            print("Saved favorite location: \(place.name ?? "Unknown")")
+            alertMessage = "Location saved successfully!"
+            showAlert = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                isPresented = false
+            }
         } catch {
-            print("Error saving favorite location: \(error.localizedDescription)")
+            // Cast the error to NSError
+            let nsError = error as NSError
+            
+            if nsError.domain == "DuplicateLocationError" {
+                alertMessage = nsError.localizedDescription
+            } else {
+                alertMessage = "Failed to save location: \(nsError.localizedDescription)"
+            }
+            showAlert = true
         }
     }
 }

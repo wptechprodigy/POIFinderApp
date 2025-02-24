@@ -15,13 +15,16 @@
 		040870C12D63903D002DD2BF /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040870C02D63903D002DD2BF /* MockData.swift */; };
 		040870C42D639449002DD2BF /* MKPointAnnotation+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040870C32D639449002DD2BF /* MKPointAnnotation+Extensions.swift */; };
 		040870C62D6396B6002DD2BF /* ErrorAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040870C52D6396B6002DD2BF /* ErrorAlert.swift */; };
+		040870C82D63A42F002DD2BF /* SearchViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040870C72D63A42F002DD2BF /* SearchViewModelTests.swift */; };
+		040870CA2D63A547002DD2BF /* CoreDataServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040870C92D63A547002DD2BF /* CoreDataServiceTests.swift */; };
+		040870CD2D63A620002DD2BF /* MockMKLocalSearchCompleter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040870CC2D63A620002DD2BF /* MockMKLocalSearchCompleter.swift */; };
+		040870CE2D63A890002DD2BF /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040870BD2D638E80002DD2BF /* SearchViewModel.swift */; };
 		04B5C6EE2D6067F4007E55C0 /* POIFinderAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B5C6ED2D6067F4007E55C0 /* POIFinderAppApp.swift */; };
 		04B5C6F02D6067F4007E55C0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B5C6EF2D6067F4007E55C0 /* ContentView.swift */; };
 		04B5C6F22D6067F9007E55C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04B5C6F12D6067F9007E55C0 /* Assets.xcassets */; };
 		04B5C6F52D6067F9007E55C0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04B5C6F42D6067F9007E55C0 /* Preview Assets.xcassets */; };
 		04B5C6F72D6067F9007E55C0 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B5C6F62D6067F9007E55C0 /* Persistence.swift */; };
 		04B5C6FA2D6067F9007E55C0 /* POIFinderApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 04B5C6F82D6067F9007E55C0 /* POIFinderApp.xcdatamodeld */; };
-		04B5C7042D6067FA007E55C0 /* POIFinderAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B5C7032D6067FA007E55C0 /* POIFinderAppTests.swift */; };
 		04B5C70E2D6067FA007E55C0 /* POIFinderAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B5C70D2D6067FA007E55C0 /* POIFinderAppUITests.swift */; };
 		04B5C7102D6067FA007E55C0 /* POIFinderAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B5C70F2D6067FA007E55C0 /* POIFinderAppUITestsLaunchTests.swift */; };
 		04B5C71E2D60866E007E55C0 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B5C71D2D60866E007E55C0 /* LocationService.swift */; };
@@ -56,6 +59,9 @@
 		040870C02D63903D002DD2BF /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		040870C32D639449002DD2BF /* MKPointAnnotation+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKPointAnnotation+Extensions.swift"; sourceTree = "<group>"; };
 		040870C52D6396B6002DD2BF /* ErrorAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAlert.swift; sourceTree = "<group>"; };
+		040870C72D63A42F002DD2BF /* SearchViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModelTests.swift; sourceTree = "<group>"; };
+		040870C92D63A547002DD2BF /* CoreDataServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataServiceTests.swift; sourceTree = "<group>"; };
+		040870CC2D63A620002DD2BF /* MockMKLocalSearchCompleter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMKLocalSearchCompleter.swift; sourceTree = "<group>"; };
 		04B5C6EA2D6067F4007E55C0 /* POIFinderApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = POIFinderApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04B5C6ED2D6067F4007E55C0 /* POIFinderAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POIFinderAppApp.swift; sourceTree = "<group>"; };
 		04B5C6EF2D6067F4007E55C0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -64,7 +70,6 @@
 		04B5C6F62D6067F9007E55C0 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		04B5C6F92D6067F9007E55C0 /* POIFinderApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = POIFinderApp.xcdatamodel; sourceTree = "<group>"; };
 		04B5C6FF2D6067FA007E55C0 /* POIFinderAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = POIFinderAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		04B5C7032D6067FA007E55C0 /* POIFinderAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POIFinderAppTests.swift; sourceTree = "<group>"; };
 		04B5C7092D6067FA007E55C0 /* POIFinderAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = POIFinderAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		04B5C70D2D6067FA007E55C0 /* POIFinderAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POIFinderAppUITests.swift; sourceTree = "<group>"; };
 		04B5C70F2D6067FA007E55C0 /* POIFinderAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POIFinderAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -123,6 +128,14 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		040870CB2D63A608002DD2BF /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				040870CC2D63A620002DD2BF /* MockMKLocalSearchCompleter.swift */,
+			);
+			path = Mock;
+			sourceTree = "<group>";
+		};
 		04B5C6E12D6067F4007E55C0 = {
 			isa = PBXGroup;
 			children = (
@@ -172,7 +185,9 @@
 		04B5C7022D6067FA007E55C0 /* POIFinderAppTests */ = {
 			isa = PBXGroup;
 			children = (
-				04B5C7032D6067FA007E55C0 /* POIFinderAppTests.swift */,
+				040870CB2D63A608002DD2BF /* Mock */,
+				040870C72D63A42F002DD2BF /* SearchViewModelTests.swift */,
+				040870C92D63A547002DD2BF /* CoreDataServiceTests.swift */,
 			);
 			path = POIFinderAppTests;
 			sourceTree = "<group>";
@@ -280,6 +295,7 @@
 					};
 					04B5C6FE2D6067FA007E55C0 = {
 						CreatedOnToolsVersion = 15.1;
+						LastSwiftMigration = 1510;
 						TestTargetID = 04B5C6E92D6067F4007E55C0;
 					};
 					04B5C7082D6067FA007E55C0 = {
@@ -362,7 +378,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04B5C7042D6067FA007E55C0 /* POIFinderAppTests.swift in Sources */,
+				040870CA2D63A547002DD2BF /* CoreDataServiceTests.swift in Sources */,
+				040870CD2D63A620002DD2BF /* MockMKLocalSearchCompleter.swift in Sources */,
+				040870CE2D63A890002DD2BF /* SearchViewModel.swift in Sources */,
+				040870C82D63A42F002DD2BF /* SearchViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -579,6 +598,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 6ZPB2R3KP8;
@@ -588,6 +608,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.waheedcodes.POIFinderAppTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/POIFinderApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/POIFinderApp";
@@ -599,6 +620,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 6ZPB2R3KP8;

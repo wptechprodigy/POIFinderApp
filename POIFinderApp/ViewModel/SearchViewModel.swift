@@ -12,10 +12,11 @@ import MapKit
 class SearchViewModel: NSObject, ObservableObject {
     @Published var searchResults: [MKLocalSearchCompletion] = []
     
-    private let completer = MKLocalSearchCompleter()
+    private let completer: MKLocalSearchCompleterProtocol
     private var cancellables = Set<AnyCancellable>()
     
-    override init() {
+    init(completer: MKLocalSearchCompleterProtocol = MKLocalSearchCompleter()) {
+        self.completer = completer
         super.init()
         completer.delegate = self
         completer.resultTypes = .address
@@ -50,3 +51,13 @@ extension SearchViewModel: MKLocalSearchCompleterDelegate {
         print("Autocomplete error: \(error.localizedDescription)")
     }
 }
+
+// Protocol for mocking MKLocalSearchCompleter
+protocol MKLocalSearchCompleterProtocol: AnyObject {
+    var delegate: MKLocalSearchCompleterDelegate? { get set }
+    var queryFragment: String { get set }
+    var resultTypes: MKLocalSearchCompleter.ResultType { get set }
+    var results: [MKLocalSearchCompletion] { get }
+}
+
+extension MKLocalSearchCompleter: MKLocalSearchCompleterProtocol {}

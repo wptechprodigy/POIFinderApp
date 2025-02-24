@@ -13,7 +13,7 @@ struct POIFinderAppApp: App {
     
     init() {
         // Customize the tab bar appearance
-        UITabBar.appearance().backgroundColor = UIColor.clear
+        UITabBar.appearance().backgroundColor = UIColor.white
         UITabBar.appearance().isTranslucent = true
         UITabBar.appearance().backgroundImage = UIImage()
         UITabBar.appearance().shadowImage = UIImage()

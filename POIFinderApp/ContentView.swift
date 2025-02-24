@@ -27,6 +27,7 @@ struct ContentView: View {
     private var cancellables = Set<AnyCancellable>()
     
     @StateObject private var locationService = LocationService()
+    @Environment(\.managedObjectContext) private var context
 
     var body: some View {
         TabView {
@@ -140,7 +141,7 @@ struct ContentView: View {
             }
             
             // Second Tab: Favorites List
-            FavoritesListView(favoriteAnnotations: $favoriteAnnotations)
+            FavoritesListView(favoriteAnnotations: $favoriteAnnotations, context: context)
                 .tabItem {
                     Label("Favorites", systemImage: "heart.fill")
                 }
